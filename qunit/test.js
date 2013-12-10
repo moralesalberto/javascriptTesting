@@ -13,3 +13,27 @@ test( "should be able to call a method inside of an object from inside object", 
 
 } );
 
+test("can instantiate a class and have the methods available from the prototype", function () {
+
+  var MyClass = function (color) {
+
+    this.color = color;
+
+    this.setColor = function (newColor) {
+      this.color = newColor;
+    };
+
+    this.paint = function () {
+      return "painting";
+    };
+  };
+
+  var myClass = new MyClass("red");
+
+  equal(myClass.color, "red");
+  equal(myClass.paint(), "painting");
+  myClass.setColor("white");
+  equal(myClass.color, "white");
+});
+
+
