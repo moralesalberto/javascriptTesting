@@ -1,67 +1,20 @@
 test( "should be able to call a method inside of an object from inside object", function () {
-	var runApp = {
-		init : function() {
-			return this.run(1,2,3);
-		},
-
-		run: function(one, two, three) {
-			return(one+two+three);
-		}
-	};
-
 	equal(runApp.init(), 6);
-
 } );
 
 test("can instantiate a class and have the methods available from the prototype", function () {
-
-  var MyClass = function (color) {
-
-    // a "private variable
-    var _originalColor = color;
-    var _self = this;
-
-    // private method
-    // notice we have to save this in the local var _self
-    // so that we can access it when this function is called
-    var _resetColor = function () {
-      _self.color = _originalColor;
-    };
-
-
-    // public property
-    this.color = color;
-
-    // public methods
-    this.setColor = function (newColor) {
-      this.color = newColor;
-    };
-
-    this.paint = function () {
-      return "painting";
-    };
-
-    this.getOriginalColor = function () {
-      return _originalColor;
-    };
-
-    this.reset = function () {
-      _resetColor();
-    };
-  };
+  equal(MyClass.instances.length, 0);
 
   var myClass = new MyClass("red");
-
   equal(myClass.color, "red");
   equal(myClass.paint(), "painting");
   myClass.setColor("white");
   equal(myClass.color, "white");
-
   // functions have access to local vars in the class
   equal(myClass.getOriginalColor(), "red");
-
   myClass.reset();
   equal(myClass.color, "red");
+  equal(MyClass.instances.length, 1);
 });
 
 test ("undefined", function () {
@@ -74,15 +27,5 @@ test ("undefined", function () {
 });
 
 test ("can genereate a uuid", function () {
-  var uuid = function () {
-    var _uuid = ('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-        return v.toString(16);
-      }));
-    return _uuid;
-  };
-
   equal(uuid().length, "1e9131b2-a379-4650-831d-5fdd5316e038".length);
-
-
 });
