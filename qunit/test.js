@@ -72,3 +72,17 @@ test ("undefined", function () {
   object.shade = "gray";
   equal(object.shade, "gray", "now we define the property so it should be fine");
 });
+
+test ("can genereate a uuid", function () {
+  var uuid = function () {
+    var _uuid = ('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+      }));
+    return _uuid;
+  };
+
+  equal(uuid().length, "1e9131b2-a379-4650-831d-5fdd5316e038".length);
+
+
+});
