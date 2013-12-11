@@ -17,14 +17,36 @@ test("can instantiate a class and have the methods available from the prototype"
 
   var MyClass = function (color) {
 
+    // a "private variable
+    var _originalColor = color;
+    var _self = this;
+
+    // private method
+    // notice we have to save this in the local var _self
+    // so that we can access it when this function is called
+    var _resetColor = function () {
+      _self.color = _originalColor;
+    };
+
+
+    // public property
     this.color = color;
 
+    // public methods
     this.setColor = function (newColor) {
       this.color = newColor;
     };
 
     this.paint = function () {
       return "painting";
+    };
+
+    this.getOriginalColor = function () {
+      return _originalColor;
+    };
+
+    this.reset = function () {
+      _resetColor();
     };
   };
 
@@ -34,6 +56,12 @@ test("can instantiate a class and have the methods available from the prototype"
   equal(myClass.paint(), "painting");
   myClass.setColor("white");
   equal(myClass.color, "white");
+
+  // functions have access to local vars in the class
+  equal(myClass.getOriginalColor(), "red");
+
+  myClass.reset();
+  equal(myClass.color, "red");
 });
 
 
