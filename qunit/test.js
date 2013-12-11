@@ -64,4 +64,11 @@ test("can instantiate a class and have the methods available from the prototype"
   equal(myClass.color, "red");
 });
 
-
+test ("undefined", function () {
+  var object = {}
+  object.color = "blue";
+  equal(object.shade, undefined, "responds to undefined as expected");
+  equal(object.color, "blue", "this is set to blue, control sample");
+  object.shade = "gray";
+  equal(object.shade, "gray", "now we define the property so it should be fine");
+});
